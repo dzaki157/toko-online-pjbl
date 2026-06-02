@@ -43,14 +43,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Install Cypress Binary
-        run: npx cypress install
-
-      - name: Fix Cypress Permission
-        run: chmod +x ./node_modules/.bin/cypress
-
-      - name: Start PHP Server
-        run: php -S localhost:8000 > /dev/null 2>&1 &
-
       - name: Run Cypress
-        run: npx cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: php -S localhost:8000
+          wait-on: 'http://localhost:8000'
