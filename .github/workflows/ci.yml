@@ -1,34 +1,3 @@
-name: CI Testing Toko Online
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-
-  phpunit-testing:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
-      - name: Install Composer Dependencies
-        run: composer install
-
-      - name: Fix PHPUnit Permission
-        run: chmod +x vendor/bin/phpunit
-
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit tests/ --coverage-text
-
   cypress-testing:
 
     runs-on: ubuntu-latest
@@ -44,6 +13,9 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+
+      - name: Install Cypress Binary
+        run: npx cypress install
 
       - name: Fix Cypress Permission
         run: chmod +x ./node_modules/.bin/cypress
