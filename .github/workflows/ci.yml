@@ -8,9 +8,7 @@ on:
 jobs:
 
   phpunit-testing:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -30,9 +28,7 @@ jobs:
         run: vendor/bin/phpunit tests/ --coverage-text
 
   cypress-testing:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -44,12 +40,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
-      - name: Install Cypress Binary
-        run: npx cypress install
-
-      - name: Fix Cypress Permission
-        run: chmod +x ./node_modules/.bin/cypress
 
       - name: Start PHP Server
         run: php -S localhost:8000 > /dev/null 2>&1 &
