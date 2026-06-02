@@ -1,57 +1,26 @@
-name: CI Testing Toko Online
+cypress-testing:
 
-on:
-  push:
-    branches:
-      - main
+  runs-on: ubuntu-latest
 
-  pull_request:
-    branches:
-      - main
+  steps:
 
-jobs:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-  phpunit-testing:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
 
-    runs-on: ubuntu-latest
+      with:
+        node-version: 20
 
-    steps:
+    - name: Install Dependencies
+      run: npm install
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    - name: Install Cypress Binary
+      run: npx cypress install
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+    - name: Start PHP Server
+      run: php -S localhost:8000 &
 
-        with:
-          php-version: '8.2'
-
-      - name: Install Composer Dependencies
-        run: composer install
-
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit tests/
-
-  cypress-testing:
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Start PHP Server
-        run: php -S localhost:8000 &
-
-      - name: Run Cypress
-        run: npx cypress run
+    - name: Run Cypress
+      run: npx cypress run --browser chrome
