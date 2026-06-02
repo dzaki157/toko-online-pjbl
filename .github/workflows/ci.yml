@@ -1,14 +1,19 @@
+  cypress-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Install Dependencies
         run: npm install
 
-      - name: Fix Cypress Binary Permissions
-        run: |
-          chmod +x $(npm bin)/cypress
-          chmod +x ./node_modules/.bin/cypress
-          chmod +x ./node_modules/cypress/bin/cypress
-
-      - name: Start PHP Server
-        run: php -S localhost:8000 > /dev/null 2>&1 &
-
-      - name: Run Cypress
-        run: ./node_modules/.bin/cypress run
+      - name: Cypress Run
+        uses: cypress-io/github-action@v6
+        with:
+          start: php -S localhost:8000
+          wait-on: 'http://localhost:8000'
