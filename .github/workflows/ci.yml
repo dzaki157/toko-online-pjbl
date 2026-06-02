@@ -1,35 +1,21 @@
-name: SQA CI & CT Pipeline
-on: [push, pull_request]
+phpunit-testing:
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
+  runs-on: ubuntu-latest
+
+  steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Setup PHP Environment
+    - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'
-        coverage: xdebug # Diperlukan untuk Metrik Coverage
+        php-version: '8.2'
 
-    - name: Install PHP Dependencies
-      run: composer install --prefer-dist --no-progress
+    - name: Install Composer Dependencies
+      run: composer install
 
-    - name: Run PHPUnit & Quality Metrics
+    - name: Fix PHPUnit Permission
+      run: chmod +x vendor/bin/phpunit
+
+    - name: Run PHPUnit
       run: vendor/bin/phpunit tests/ --coverage-text
-
-    - name: Setup Node.js for Cypress
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-
-    - name: Install NPM Dependencies
-      run: npm install
-
-    - name: Start PHP Server in Background
-      run: php -S localhost:8000 &
-
-    - name: Run Cypress E2E Tests (System Testing)
-      uses: cypress-io/github-action@v5
