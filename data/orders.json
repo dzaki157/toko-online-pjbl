@@ -1,0 +1,13 @@
+[
+    {
+        "id_pesanan": "ORD-6a09d02fddb9c",
+        "email": "budi@email.com",
+        "alamat": "Jl. Merdeka No. 123",
+        "items": {
+            "PRD-001": 2,
+            "PRD-002": 1
+        },
+        "total_bayar": 550000,
+        "status": "Menunggu Pembayaran"
+    }
+]
